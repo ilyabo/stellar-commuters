@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title>Animated flowmap of commuters in the Netherlands</title>
+    <link href="https://fonts.googleapis.com/css?family=Monda&display=swap" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+        background: #000;
+        color: #f0f3f3;
+        font-family: 'Monda',sans-serif;
+        font-size: 0.8rem;
+      }
+      a { color: #91e9ff; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      #info {
+        background: rgba(0,0,0,0.75);
+        border-radius: 5px;
+        padding: 10px 20px;
+        position: absolute;
+        max-width: 350px;
+        top: 10px;
+        left: 10px;
+        box-shadow: 0px 0px 2px 2px rgba(100,100,120,0.75);
+        overflow: hidden;
+        cursor: pointer;
+      }
+      #info #info-body {
+        max-height: 0px;
+        transition: max-height 0.25s;
+      }
+      #info:hover #info-body {
+        max-height: 500px;
+      }
+      #info:hover .chevron {
+        opacity: 0;
+      }
+      .title {
+        color: #f0f3f3;
+        font-weight: bold;
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      .desc {
+        color: #a0a3a3;
+        margin-top: 0;
+      }
+      .show-more {
+        text-align: center;
+        width: 100%;
+      }
+      .chevron{
+        position: relative;
+        display: inline-block;
+        height: 5px;
+        top: -5px;
+        opacity: 1;
+        transition: opacity 0.25s;
+      }
+      .chevron:before,
+      .chevron:after {
+        position:absolute;
+        display:block;
+        content:"";
+        border:10px solid transparent;
+      }
+      .chevron:before {
+        top:0;
+        border-top-color:#a0a3a3;
+      }
+      .chevron:after {
+        top:-3px;
+        border-top-color:#000;
+      }
+    </style>
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="map">
+      <!--        <div id="loading">Loading…</div>-->
+    </div>
+  </div>
+  <div id="info">
+    <div class="title">Stellar Commuters</div>
+    <section id="info-body">
+      <div class="show-more">
+        <div class="chevron"></div>
+      </div>
+      <p class="desc">
+        This map represents the numbers of
+        commuters between localities in the Netherlands in 2016.
+        The sizes of the "trains" are proportional to the numbers of commuters
+        between the corresponding pairs of localities.
+        The sizes of the "stars" are proportional to the total
+        numbers of incoming/outgoing commuters.
+      </p>
+      <p class="desc">
+        Use [Ctrl+drag] to change bearing and pitch.
+      </p>
+      <p>
+        Created by: <a href="https://ilya.boyandin.me">Ilya Boyandin</a>
+      </p>
+      <p>
+        Data source: <a href="https://opendata.cbs.nl/#/CBS/nl/dataset/83628NED/table?dl=F076">Statistics Netherlands</a>
+      </p>
+      <p>
+        Same data as a flow map:
+        <a href="https://flowmap.blue/1Oe3zM219uSfJ3sjdRT90SAK2kU3xIvzdcCW6cwTsAuc">flowmap.blue</a>
+      </p>
+      <p>
+        Inspiration: <a href="https://uclab.fh-potsdam.de/cf/">cf. city flows</a>
+      </p>
+      <p>
+        Code:
+        <a href="https://observablehq.com/@ilyabo/animated-flow-map-of-commuters-in-the-netherlands-in-2016">
+          Observable notebook
+        </a>
+      </p>
+    </section>
+  </div>
+
+  <script type="module">
+    import {Runtime} from "https://unpkg.com/@observablehq/runtime@4/dist/runtime.js";
+    import notebook from "https://api.observablehq.com/@ilyabo/animated-flow-map-of-commuters-in-the-netherlands-in-2016.js?v=3";
+    const renders = {
+      "viewof map": "#map",
+    };
+    function render(_node, value) {
+      if (!(value instanceof Element)) {
+        const el = document.createElement("span");
+        el.innerHTML = value;
+        value = el;
+      }
+      if (_node.firstChild !== value) {
+        if (_node.firstChild) {
+          while (_node.lastChild !== _node.firstChild) _node.removeChild(_node.lastChild);
+          _node.replaceChild(value, _node.firstChild);
+        } else {
+          _node.appendChild(value);
+        }
+      }
+    }
+    const runtime = new Runtime();
+    const main = runtime.module(notebook, name => {
+      const selector = renders[name];
+      if (selector) {
+        return {fulfilled: (value) => render(document.querySelector(selector), value)}
+      } else {
+        return true;
+      }
+    });
+  </script>
+  </body>
+</html>
