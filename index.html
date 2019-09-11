@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <title>Animated flowmap of commuters in the Netherlands</title>
+    <title>Stellar Commutes</title>
     <link href="https://fonts.googleapis.com/css?family=Monda&display=swap" rel="stylesheet">
     <style>
       body {
@@ -22,6 +22,8 @@
       a { color: #91e9ff; text-decoration: none; }
       a:hover { text-decoration: underline; }
       #info {
+        display: flex;
+        flex-direction: column;
         background: rgba(0,0,0,0.75);
         border-radius: 5px;
         padding: 10px 20px;
@@ -35,7 +37,7 @@
       }
       #info #info-body {
         max-height: 0px;
-        transition: max-height 0.25s;
+        transition: max-height 0.5s;
       }
       #info:hover #info-body {
         max-height: 500px;
@@ -43,28 +45,34 @@
       #info:hover .chevron {
         opacity: 0;
       }
+      .header {
+        text-align: center;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+      .header > *+* {
+        margin-left: 40px;
+      }
       .title {
         color: #f0f3f3;
         font-weight: bold;
         font-size: 1.25rem;
-        margin-bottom: 10px;
         text-align: center;
       }
       .desc {
         color: #a0a3a3;
-        margin-top: 0;
       }
-      .show-more {
-        text-align: center;
-        width: 100%;
-      }
-      .chevron{
+      .chevron {
         position: relative;
-        display: inline-block;
-        height: 5px;
-        top: -5px;
+        display: block;
         opacity: 1;
-        transition: opacity 0.25s;
+        transition: opacity 0.5s;
+        width: 20px;
+        height: 15px;
+        margin-top: 10px;
       }
       .chevron:before,
       .chevron:after {
@@ -90,18 +98,19 @@
     </div>
   </div>
   <div id="info">
-    <div class="title">Stellar Commuters</div>
+    <div class="header">
+      <div class="chevron"></div>
+      <div class="title">Stellar Commutes</div>
+      <div class="chevron"></div>
+    </div>
     <section id="info-body">
-      <div class="show-more">
-        <div class="chevron"></div>
-      </div>
       <p class="desc">
         This map represents the numbers of
-        commuters between localities in the Netherlands in 2016.
-        The sizes of the "trains" are proportional to the numbers of commuters
-        between the corresponding pairs of localities.
+        commutes between localities in the Netherlands in 2016.
         The sizes of the "stars" are proportional to the total
-        numbers of incoming/outgoing commuters.
+        numbers of incoming/outgoing commutes.
+        The sizes of the "trains" are proportional to the numbers of commutes
+        between the corresponding pairs of localities.
       </p>
       <p class="desc">
         Use [Ctrl+drag] to change bearing and pitch.
